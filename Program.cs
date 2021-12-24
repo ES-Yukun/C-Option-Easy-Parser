@@ -17,17 +17,18 @@ namespace DockerCDR
             string[] childTmp = new string[] { };
             foreach (string i in args) if (i.StartsWith("-"))
                 {
-                    if (i.StartsWith("--"))
-                        parentTmp = i.Remove(0, 2);
-                    else if (i.StartsWith("-"))
-                        parentTmp = i.Remove(0, 1);
+                    if (i.StartsWith("--")) parentTmp = i.Remove(0, 2);
+                    //else if (i.StartsWith("-")) parentTmp = i.Remove(0, 1);
                     Parsed.Add(parentTmp, new string[] { });
                     childTmp = new string[] { };
                 }
                 else
                 {
-                    childTmp = childTmp.Concat(new string[] { i }).ToArray();
-                    Parsed[parentTmp] = childTmp;
+                    if (parentTmp != "")
+                    {
+                        childTmp = childTmp.Concat(new string[] { i }).ToArray();
+                        Parsed[parentTmp] = childTmp;
+                    }
                 }
             return Parsed;
         }
